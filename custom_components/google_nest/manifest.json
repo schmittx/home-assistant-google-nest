@@ -1,0 +1,24 @@
+{
+    "domain": "google_nest",
+    "name": "Google Nest",
+    "after_dependencies": [],
+    "codeowners": ["@schmittx"],
+    "config_flow": true,
+    "dependencies": [],
+    "dhcp": [
+        {
+            "macaddress": "18B430*"
+        },
+        {
+            "macaddress": "641666*"
+        }
+    ],
+    "documentation": "https://github.com/schmittx/home-assistant-google-nest",
+    "iot_class": "cloud_push",
+    "integration_type": "hub",
+    "issue_tracker": "https://github.com/schmittx/home-assistant-google-nest/issues",
+    "loggers": [],
+    "quality_scale": "silver",
+    "requirements": [],
+    "version": "1.0.0"
+}

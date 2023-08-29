@@ -1,0 +1,92 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Account is already configured"
+        },
+        "error": {
+            "cannot_connect": "Failed to connect",
+            "invalid_auth": "Invalid authentication",
+            "unknown": "Unexpected error"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "account_type": "Account Type"
+                }
+            },
+            "account_link": {
+                "description": "Please retrieve your issue_token and cookies manually, following the instructions in the [integration README](https://github.com/iMicknl/ha-nest-protect/tree/beta#retrieving-issue_token-and-cookies) and paste them below.",
+                "data": {
+                    "issue_token": "Issue Token",
+                    "cookies": "Cookies"
+                }
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "advanced": {
+                "data": {
+                    "save_responses": "Save server responses to custom_components/google_nest/api/responses",
+                    "scan_interval": "Polling interval (seconds)",
+                    "timeout": "Polling timeout (seconds)"
+                },
+                "description": "Server responses can be saved to a file for debugging and development support.\n\nPolling interval and timeout can be adjusted if errors are encountered.",
+                "title": "Advanced options"
+            }
+        }
+    },
+    "entity": {
+        "select": {
+            "all": {
+                "state": {
+                    "12_am": "12 AM",
+                    "1_am": "1 AM",
+                    "2_am": "2 AM",
+                    "3_am": "3 AM",
+                    "4_am": "4 AM",
+                    "5_am": "5 AM",
+                    "6_am": "6 AM",
+                    "7_am": "7 AM",
+                    "8_am": "8 AM",
+                    "9_am": "9 AM",
+                    "10_am": "10 AM",
+                    "11_am": "11 AM",
+                    "12_pm": "12 PM",
+                    "1_pm": "1 PM",
+                    "2_pm": "2 PM",
+                    "3_pm": "3 PM",
+                    "4_pm": "4 PM",
+                    "5_pm": "5 PM",
+                    "6_pm": "6 PM",
+                    "7_pm": "7 PM",
+                    "8_pm": "8 PM",
+                    "9_pm": "9 PM",
+                    "10_pm": "10 PM",
+                    "11_pm": "11 PM",
+                    "30_gb_month": "30 GB/Month",
+                    "100_gb_month": "100 GB/Month",
+                    "120_gb_month": "120 GB/Month",
+                    "200_gb_month": "200 GB/Month",
+                    "300_gb_month": "300 GB/Month",
+                    "400_gb_month": "400 GB/Month",
+                    "always_on": "Always On",
+                    "auto": "Auto",
+                    "c": "°C",
+                    "electronic": "Electronic",
+                    "evening": "Evening (4 PM - 9 PM)",
+                    "f": "°F",
+                    "high": "High",
+                    "low": "Low",
+                    "mechanical": "Mechanical",
+                    "medium": "Medium",
+                    "midday": "Midday (11 AM - 4 PM)",
+                    "morning": "Morning (7 AM - 11 AM)",
+                    "night": "Night (9 PM - 7 AM)",
+                    "off": "Off",
+                    "on": "On"
+                }
+            }
+        }
+    }
+}
