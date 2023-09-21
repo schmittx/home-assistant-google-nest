@@ -7,7 +7,8 @@ from homeassistant.core import callback
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.device_registry import DeviceEntryType
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
-from homeassistant.helpers.entity import DeviceInfo, Entity, EntityDescription
+from homeassistant.helpers.device_registry import DeviceInfo
+from homeassistant.helpers.entity import Entity, EntityDescription
 from homeassistant.helpers.update_coordinator import (
     CoordinatorEntity,
     DataUpdateCoordinator,
