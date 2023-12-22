@@ -5,7 +5,6 @@ from dataclasses import dataclass
 
 from homeassistant.core import callback
 from homeassistant.helpers import device_registry as dr
-from homeassistant.helpers.device_registry import DeviceEntryType
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity, EntityDescription
@@ -85,7 +84,7 @@ class GoogleNestEntity(Entity):
                 name=self.device_name,
                 manufacturer="Google Nest",
                 model="Structure",
-                entry_type=DeviceEntryType.SERVICE,
+                entry_type=dr.DeviceEntryType.SERVICE,
             )
 
         if any(
