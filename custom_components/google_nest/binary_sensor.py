@@ -33,38 +33,6 @@ class GoogleNestBinarySensorCoordinatorEntityDescription(GoogleNestBinarySensorE
 
 BINARY_SENSOR_DESCRIPTIONS: list[BinarySensorEntityDescription] = [
     GoogleNestBinarySensorEntityDescription(
-        key="co_status",
-        name="CO Status",
-        get_value=lambda value: bool(value == 3),
-        device_class=BinarySensorDeviceClass.CO,
-        entity_category=None,
-    ),
-    GoogleNestBinarySensorEntityDescription(
-        key="smoke_status",
-        name="Smoke Status",
-        get_value=lambda value: bool(value == 3),
-        device_class=BinarySensorDeviceClass.SMOKE,
-        entity_category=None,
-    ),
-    GoogleNestBinarySensorEntityDescription(
-        key="heat_status",
-        name="Heat Status",
-        get_value=lambda value: bool(value == 3),
-        device_class=BinarySensorDeviceClass.HEAT,
-        entity_category=None,
-    ),
-    GoogleNestBinarySensorEntityDescription(
-        key="battery_health_state",
-        name="Battery Health",
-        device_class=BinarySensorDeviceClass.BATTERY,
-    ),
-    GoogleNestBinarySensorEntityDescription(
-        key="wifi_ip_address",
-        name="Wi-Fi Connection",
-        get_value=lambda value: bool(value),
-        device_class=BinarySensorDeviceClass.CONNECTIVITY,
-    ),
-    GoogleNestBinarySensorEntityDescription(
         key="auto_away",
         name="Occupancy",
         get_value=lambda value: not value,
@@ -73,10 +41,22 @@ BINARY_SENSOR_DESCRIPTIONS: list[BinarySensorEntityDescription] = [
         wired_only=True,
     ),
     GoogleNestBinarySensorEntityDescription(
-        key="line_power_present",
-        name="Line Power Present",
-        device_class=BinarySensorDeviceClass.POWER,
-        wired_only=True,
+        key="battery_health_state",
+        name="Battery Health",
+        device_class=BinarySensorDeviceClass.BATTERY,
+    ),
+    GoogleNestBinarySensorEntityDescription(
+        key="co_status",
+        name="CO Status",
+        get_value=lambda value: bool(value == 3),
+        device_class=BinarySensorDeviceClass.CO,
+        entity_category=None,
+    ),
+    GoogleNestBinarySensorEntityDescription(
+        key="dehumidifier_state",
+        name="Dehumidifier Active",
+        device_class=BinarySensorDeviceClass.RUNNING,
+        entity_category=EntityCategory.DIAGNOSTIC,
     ),
     GoogleNestBinarySensorEntityDescription(
         key="filter_replacement_needed",
@@ -84,10 +64,11 @@ BINARY_SENSOR_DESCRIPTIONS: list[BinarySensorEntityDescription] = [
         device_class=BinarySensorDeviceClass.PROBLEM,
     ),
     GoogleNestBinarySensorEntityDescription(
-        key="dehumidifier_state",
-        name="Dehumidifier Active",
-        device_class=BinarySensorDeviceClass.RUNNING,
-        entity_category=EntityCategory.DIAGNOSTIC,
+        key="heat_status",
+        name="Heat Status",
+        get_value=lambda value: bool(value == 3),
+        device_class=BinarySensorDeviceClass.HEAT,
+        entity_category=None,
     ),
     GoogleNestBinarySensorEntityDescription(
         key="humidifier_state",
@@ -119,14 +100,41 @@ BINARY_SENSOR_DESCRIPTIONS: list[BinarySensorEntityDescription] = [
         get_value=lambda value: bool(value),
         device_class=BinarySensorDeviceClass.CONNECTIVITY,
     ),
+    GoogleNestBinarySensorEntityDescription(
+        key="line_power_present",
+        name="Line Power Present",
+        device_class=BinarySensorDeviceClass.POWER,
+        wired_only=True,
+    ),
+    GoogleNestBinarySensorEntityDescription(
+        key="smoke_status",
+        name="Smoke Status",
+        get_value=lambda value: bool(value == 3),
+        device_class=BinarySensorDeviceClass.SMOKE,
+        entity_category=None,
+    ),
+    GoogleNestBinarySensorEntityDescription(
+        key="wifi_ip_address",
+        name="Wi-Fi Connection",
+        get_value=lambda value: bool(value),
+        device_class=BinarySensorDeviceClass.CONNECTIVITY,
+    ),
 ]
 
 BINARY_SENSOR_COORDINATOR_DESCRIPTIONS: list[GoogleNestBinarySensorCoordinatorEntityDescription] = [
     GoogleNestBinarySensorCoordinatorEntityDescription(
         key="button_pressed",
-        name="Button pressed",
+        name="Button Pressed",
         entity_category=None,
         capability="indoor_chime",
+        object_key_prefix="quartz",
+    ),
+    GoogleNestBinarySensorCoordinatorEntityDescription(
+        key="dog_barking_detected",
+        name="Dog Barking Detected",
+        device_class=BinarySensorDeviceClass.SOUND,
+        entity_category=None,
+        capability="audio.microphone",
         object_key_prefix="quartz",
     ),
     GoogleNestBinarySensorCoordinatorEntityDescription(
@@ -163,14 +171,6 @@ BINARY_SENSOR_COORDINATOR_DESCRIPTIONS: list[GoogleNestBinarySensorCoordinatorEn
         name="Person Detected",
         device_class=BinarySensorDeviceClass.OCCUPANCY,
         entity_category=None,
-        object_key_prefix="quartz",
-    ),
-    GoogleNestBinarySensorCoordinatorEntityDescription(
-        key="dog_barking_detected",
-        name="Dog Barking Detected",
-        device_class=BinarySensorDeviceClass.SOUND,
-        entity_category=None,
-        capability="audio.microphone",
         object_key_prefix="quartz",
     ),
     GoogleNestBinarySensorCoordinatorEntityDescription(

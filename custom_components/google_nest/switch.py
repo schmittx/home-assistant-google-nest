@@ -32,45 +32,9 @@ class GoogleNestSwitchCoordinatorEntityDescription(GoogleNestSwitchEntityDescrip
 
 SWITCH_DESCRIPTIONS: list[GoogleNestSwitchEntityDescription] = [
     GoogleNestSwitchEntityDescription(
-        key="ntp_green_led_enable",
-        name="Nightly Promise",
-        icon="mdi:weather-night",
-    ),
-    GoogleNestSwitchEntityDescription(
-        key="heads_up_enable",
-        name="Heads-Up",
-        icon="mdi:message-alert",
-    ),
-    GoogleNestSwitchEntityDescription(
-        key="steam_detection_enable",
-        name="Steam Check",
-        icon="mdi:weather-rainy",
-    ),
-    GoogleNestSwitchEntityDescription(
-        key="away",
-        name="Away",
-        entity_category=None,
-        icon="mdi:home-outline",
-    ),
-    GoogleNestSwitchEntityDescription(
-        key="hvac_safety_shutoff_enabled",
-        name="Emergency Shutoff CO",
-        icon="mdi:smoke-detector",
-    ),
-    GoogleNestSwitchEntityDescription(
-        key="hvac_smoke_safety_shutoff_enabled",
-        name="Emergency Shutoff Smoke",
-        icon="mdi:smoke-detector-variant",
-    ),
-    GoogleNestSwitchEntityDescription(
-        key="phone_hush_enable",
-        name="Silencing Alarms",
-        icon="mdi:cellphone-sound",
-    ),
-    GoogleNestSwitchEntityDescription(
-        key="home_away_input",
-        name="Home/Away Assist",
-        icon="mdi:motion-sensor",
+        key="audio_input_enabled",
+        name="Microphone",
+        icon="mdi:microphone",
     ),
     GoogleNestSwitchEntityDescription(
         key="audio_self_test_enabled",
@@ -83,19 +47,9 @@ SWITCH_DESCRIPTIONS: list[GoogleNestSwitchEntityDescription] = [
         icon="mdi:speaker-message",
     ),
     GoogleNestSwitchEntityDescription(
-        key="sunlight_correction_enabled",
-        name="Sunblock",
-        icon="mdi:sun-thermometer",
-    ),
-    GoogleNestSwitchEntityDescription(
-        key="preconditioning_enabled",
-        name="Early-On",
-        icon="mdi:sun-clock",
-    ),
-    GoogleNestSwitchEntityDescription(
-        key="fan_cooling_enabled",
-        name="Airwave",
-        icon="mdi:weather-windy",
+        key="auto_away_enable",
+        name="Away Eco Temperatures",
+        icon="mdi:home-thermometer",
     ),
     GoogleNestSwitchEntityDescription(
         key="auto_dehum_enabled",
@@ -103,28 +57,8 @@ SWITCH_DESCRIPTIONS: list[GoogleNestSwitchEntityDescription] = [
         icon="mdi:water",
     ),
     GoogleNestSwitchEntityDescription(
-        key="learning_mode",
-        name="Auto-Schedule",
-        icon="mdi:calendar",
-    ),
-    GoogleNestSwitchEntityDescription(
-        key="auto_away_enable",
-        name="Away Eco Temperatures",
-        icon="mdi:home-thermometer",
-    ),
-    GoogleNestSwitchEntityDescription(
-        key="filter_reminder_enabled",
-        name="Air Filter Reminder",
-        icon="mdi:air-filter",
-    ),
-    GoogleNestSwitchEntityDescription(
-        key="lower_safety_temp_enabled",
-        name="Lower Safety Temperature",
-        icon="mdi:thermometer-chevron-down",
-    ),
-    GoogleNestSwitchEntityDescription(
-        key="upper_safety_temp_enabled",
-        name="Upper Safety Temperature",
+        key="away_temperature_high_enabled",
+        name="Upper Eco Temperature",
         icon="mdi:thermometer-chevron-up",
     ),
     GoogleNestSwitchEntityDescription(
@@ -133,9 +67,64 @@ SWITCH_DESCRIPTIONS: list[GoogleNestSwitchEntityDescription] = [
         icon="mdi:thermometer-chevron-down",
     ),
     GoogleNestSwitchEntityDescription(
-        key="away_temperature_high_enabled",
-        name="Upper Eco Temperature",
-        icon="mdi:thermometer-chevron-up",
+        key="fan_cooling_enabled",
+        name="Airwave",
+        icon="mdi:weather-windy",
+    ),
+    GoogleNestSwitchEntityDescription(
+        key="filter_reminder_enabled",
+        name="Air Filter Reminder",
+        icon="mdi:air-filter",
+    ),
+    GoogleNestSwitchEntityDescription(
+        key="heads_up_enable",
+        name="Heads-Up",
+        icon="mdi:message-alert",
+    ),
+    GoogleNestSwitchEntityDescription(
+        key="home_away_input",
+        name="Home/Away Assist",
+        icon="mdi:motion-sensor",
+    ),
+    GoogleNestSwitchEntityDescription(
+        key="humidity_control_lockout_enabled",
+        name="Quiet Time",
+        icon="mdi:air-humidifier-off",
+    ),
+    GoogleNestSwitchEntityDescription(
+        key="hvac_safety_shutoff_enabled",
+        name="Emergency Shutoff CO",
+        icon="mdi:smoke-detector",
+    ),
+    GoogleNestSwitchEntityDescription(
+        key="hvac_smoke_safety_shutoff_enabled",
+        name="Emergency Shutoff Smoke",
+        icon="mdi:smoke-detector-variant",
+    ),
+    GoogleNestSwitchEntityDescription(
+        key="learning_mode",
+        name="Auto-Schedule",
+        icon="mdi:calendar",
+    ),
+    GoogleNestSwitchEntityDescription(
+        key="lower_safety_temp_enabled",
+        name="Lower Safety Temperature",
+        icon="mdi:thermometer-chevron-down",
+    ),
+    GoogleNestSwitchEntityDescription(
+        key="ntp_green_led_enable",
+        name="Nightly Promise",
+        icon="mdi:weather-night",
+    ),
+    GoogleNestSwitchEntityDescription(
+        key="phone_hush_enable",
+        name="Silencing Alarms",
+        icon="mdi:cellphone-sound",
+    ),
+    GoogleNestSwitchEntityDescription(
+        key="preconditioning_enabled",
+        name="Early-On",
+        icon="mdi:sun-clock",
     ),
     GoogleNestSwitchEntityDescription(
         key="rcs_control_setting",
@@ -145,6 +134,11 @@ SWITCH_DESCRIPTIONS: list[GoogleNestSwitchEntityDescription] = [
         icon="mdi:calendar",
     ),
     GoogleNestSwitchEntityDescription(
+        key="steam_detection_enable",
+        name="Steam Check",
+        icon="mdi:weather-rainy",
+    ),
+    GoogleNestSwitchEntityDescription(
         key="streaming_state",
         name="Camera On/Off",
         get_value=lambda value: bool(value == "streaming-enabled"),
@@ -152,14 +146,14 @@ SWITCH_DESCRIPTIONS: list[GoogleNestSwitchEntityDescription] = [
         icon="mdi:video",
     ),
     GoogleNestSwitchEntityDescription(
-        key="audio_input_enabled",
-        name="Microphone",
-        icon="mdi:microphone",
+        key="sunlight_correction_enabled",
+        name="Sunblock",
+        icon="mdi:sun-thermometer",
     ),
     GoogleNestSwitchEntityDescription(
-        key="humidity_control_lockout_enabled",
-        name="Quiet Time",
-        icon="mdi:air-humidifier-off",
+        key="upper_safety_temp_enabled",
+        name="Upper Safety Temperature",
+        icon="mdi:thermometer-chevron-up",
     ),
 ]
 

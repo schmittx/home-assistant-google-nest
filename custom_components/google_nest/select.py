@@ -99,6 +99,12 @@ HUMIDITY_CONTROL_LOCKOUT_TO_PRESET: dict[int, str] = {
 }
 PRESET_TO_HUMIDITY_CONTROL_LOCK: dict[str, int] = {v: k for k, v in HUMIDITY_CONTROL_LOCKOUT_TO_PRESET.items()}
 
+AWAY_STATUS_TO_PRESET: dict[bool, str] = {
+    True: "away",
+    False: "home",
+}
+PRESET_TO_AWAY_STATUS: dict[str, bool] = {v: k for k, v in AWAY_STATUS_TO_PRESET.items()}
+
 @dataclass
 class GoogleNestSelectEntityDescription(SelectEntityDescription):
     """Class to describe a Google Nest select entity."""
@@ -118,6 +124,42 @@ class GoogleNestSelectCoordinatorEntityDescription(GoogleNestSelectEntityDescrip
 
 SELECT_DESCRIPTIONS: list[GoogleNestSelectEntityDescription] = [
     GoogleNestSelectEntityDescription(
+        key="active_rcs_sensors",
+        name="Active Sensor",
+        entity_category=None,
+        icon="mdi:access-point",
+    ),
+    GoogleNestSelectEntityDescription(
+        key="audio_self_test_start_utc_offset_secs",
+        name="Sound Check Preferred Time",
+        options=[*TIME_INTERVALS],
+        icon="mdi:clock-outline",
+    ),
+    GoogleNestSelectEntityDescription(
+        key="away",
+        name="status",
+        options=[*PRESET_TO_AWAY_STATUS],
+        get_value=lambda value: AWAY_STATUS_TO_PRESET.get(value),
+        set_value=lambda value: PRESET_TO_AWAY_STATUS.get(value),
+        icon="mdi:home-switch-outline",
+    ),
+    GoogleNestSelectEntityDescription(
+        key="humidity_control_lockout_end_time",
+        name="Quiet Time End",
+        options=[*PRESET_TO_HUMIDITY_CONTROL_LOCK],
+        get_value=lambda value: HUMIDITY_CONTROL_LOCKOUT_TO_PRESET.get(value),
+        set_value=lambda value: PRESET_TO_HUMIDITY_CONTROL_LOCK.get(value),
+        icon="mdi:clock-end",
+    ),
+    GoogleNestSelectEntityDescription(
+        key="humidity_control_lockout_start_time",
+        name="Quiet Time Start",
+        options=[*PRESET_TO_HUMIDITY_CONTROL_LOCK],
+        get_value=lambda value: HUMIDITY_CONTROL_LOCKOUT_TO_PRESET.get(value),
+        set_value=lambda value: PRESET_TO_HUMIDITY_CONTROL_LOCK.get(value),
+        icon="mdi:clock-start",
+    ),
+    GoogleNestSelectEntityDescription(
         key="night_light_brightness",
         name="Brightness",
         options=[*PRESET_TO_BRIGHTNESS],
@@ -132,29 +174,9 @@ SELECT_DESCRIPTIONS: list[GoogleNestSelectEntityDescription] = [
         icon="mdi:lightbulb-night",
     ),
     GoogleNestSelectEntityDescription(
-        key="temperature_scale",
-        name="Temperature Units",
-        options=[*PRESET_TO_SCALE],
-        get_value=lambda value: SCALE_TO_PRESET.get(value),
-        set_value=lambda value: PRESET_TO_SCALE.get(value),
-        icon="mdi:thermometer-lines",
-    ),
-    GoogleNestSelectEntityDescription(
-        key="active_rcs_sensors",
-        name="Active Sensor",
-        entity_category=None,
-        icon="mdi:access-point",
-    ),
-    GoogleNestSelectEntityDescription(
-        key="audio_self_test_start_utc_offset_secs",
-        name="Sound Check Preferred Time",
-        options=[*TIME_INTERVALS],
-        icon="mdi:clock-outline",
-    ),
-    GoogleNestSelectEntityDescription(
-        key="sensor_schedule_morning",
-        name="Sensor Schedule Morning",
-        icon="mdi:clock-time-seven-outline",
+        key="sensor_schedule_evening",
+        name="Sensor Schedule Evening",
+        icon="mdi:clock-time-four-outline",
     ),
     GoogleNestSelectEntityDescription(
         key="sensor_schedule_midday",
@@ -162,9 +184,9 @@ SELECT_DESCRIPTIONS: list[GoogleNestSelectEntityDescription] = [
         icon="mdi:clock-time-eleven-outline",
     ),
     GoogleNestSelectEntityDescription(
-        key="sensor_schedule_evening",
-        name="Sensor Schedule Evening",
-        icon="mdi:clock-time-four-outline",
+        key="sensor_schedule_morning",
+        name="Sensor Schedule Morning",
+        icon="mdi:clock-time-seven-outline",
     ),
     GoogleNestSelectEntityDescription(
         key="sensor_schedule_night",
@@ -172,33 +194,16 @@ SELECT_DESCRIPTIONS: list[GoogleNestSelectEntityDescription] = [
         icon="mdi:clock-time-nine-outline",
     ),
     GoogleNestSelectEntityDescription(
-        key="humidity_control_lockout_start_time",
-        name="Quiet Time Start",
-        options=[*PRESET_TO_HUMIDITY_CONTROL_LOCK],
-        get_value=lambda value: HUMIDITY_CONTROL_LOCKOUT_TO_PRESET.get(value),
-        set_value=lambda value: PRESET_TO_HUMIDITY_CONTROL_LOCK.get(value),
-        icon="mdi:clock-start",
-    ),
-    GoogleNestSelectEntityDescription(
-        key="humidity_control_lockout_end_time",
-        name="Quiet Time End",
-        options=[*PRESET_TO_HUMIDITY_CONTROL_LOCK],
-        get_value=lambda value: HUMIDITY_CONTROL_LOCKOUT_TO_PRESET.get(value),
-        set_value=lambda value: PRESET_TO_HUMIDITY_CONTROL_LOCK.get(value),
-        icon="mdi:clock-end",
+        key="temperature_scale",
+        name="Temperature Units",
+        options=[*PRESET_TO_SCALE],
+        get_value=lambda value: SCALE_TO_PRESET.get(value),
+        set_value=lambda value: PRESET_TO_SCALE.get(value),
+        icon="mdi:thermometer-lines",
     ),
 ]
 
 SELECT_COORDINATOR_DESCRIPTIONS: list[GoogleNestSelectCoordinatorEntityDescription] = [
-    GoogleNestSelectCoordinatorEntityDescription(
-        key="streaming.data-usage-tier",
-        name="Quality & Bandwidth",
-        options=None,
-        get_value=lambda value: DATA_USAGE_TIER_TO_PRESET.get(value),
-        set_value=lambda value: PRESET_TO_DATA_USAGE_TIER.get(value),
-        icon="mdi:filmstrip",
-        object_key_prefix="quartz",
-    ),
     GoogleNestSelectCoordinatorEntityDescription(
         key="doorbell.indoor_chime.type",
         name="Indoor Chime Type",
@@ -225,6 +230,15 @@ SELECT_COORDINATOR_DESCRIPTIONS: list[GoogleNestSelectCoordinatorEntityDescripti
         set_value=lambda value: PRESET_TO_STATUS_LED_BRIGHTNESS.get(value),
         icon="mdi:lightbulb-on",
         capability="statusled.brightness.settable",
+        object_key_prefix="quartz",
+    ),
+    GoogleNestSelectCoordinatorEntityDescription(
+        key="streaming.data-usage-tier",
+        name="Quality & Bandwidth",
+        options=None,
+        get_value=lambda value: DATA_USAGE_TIER_TO_PRESET.get(value),
+        set_value=lambda value: PRESET_TO_DATA_USAGE_TIER.get(value),
+        icon="mdi:filmstrip",
         object_key_prefix="quartz",
     ),
 ]
