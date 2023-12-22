@@ -6,7 +6,6 @@ from dataclasses import dataclass
 from homeassistant.core import callback
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
-from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity, EntityDescription
 from homeassistant.helpers.update_coordinator import (
     CoordinatorEntity,
@@ -58,13 +57,13 @@ class GoogleNestEntity(Entity):
         self.area_name = areas.get(self.where_id)
 
     @property
-    def device_info(self) -> DeviceInfo:
+    def device_info(self) -> dr.DeviceInfo:
         """Return device specific attributes.
 
         Implemented by platform classes.
         """
         if self.bucket.object_key.startswith("kryptonite."):
-            return DeviceInfo(
+            return dr.DeviceInfo(
                 identifiers={(DOMAIN, self.bucket.value["serial_number"])},
                 name=self.device_name,
                 manufacturer="Google Nest",
@@ -79,7 +78,7 @@ class GoogleNestEntity(Entity):
                 self.bucket.object_key.startswith("structure."),
             ]
         ):
-            return DeviceInfo(
+            return dr.DeviceInfo(
                 identifiers={(DOMAIN, self.bucket.object_key.split(".")[1])},
                 name=self.device_name,
                 manufacturer="Google Nest",
@@ -96,7 +95,7 @@ class GoogleNestEntity(Entity):
                 self.bucket.object_key.startswith("track."),
             ]
         ):
-            return DeviceInfo(
+            return dr.DeviceInfo(
                 identifiers={(DOMAIN, self.bucket.object_key.split(".")[1])},
                 name=self.device_name,
                 manufacturer="Google Nest",
@@ -108,7 +107,7 @@ class GoogleNestEntity(Entity):
             )
 
         if self.bucket.object_key.startswith("quartz."):
-            return DeviceInfo(
+            return dr.DeviceInfo(
                 connections={
                     (dr.CONNECTION_NETWORK_MAC, self.bucket.value["mac_address"])
                 },
@@ -126,7 +125,7 @@ class GoogleNestEntity(Entity):
             hw_version = "Wired" if self.bucket.value["wired_or_battery"] == 0 else "Battery-Powered"
             if model := PROTECT_MODEL_MAP.get(self.bucket.value["model"]):
                 hw_version = f"{hw_version} {model}"
-            return DeviceInfo(
+            return dr.DeviceInfo(
                 connections={
                     (dr.CONNECTION_NETWORK_MAC, self.bucket.value["wifi_mac_address"])
                 },
