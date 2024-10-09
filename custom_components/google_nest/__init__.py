@@ -170,7 +170,7 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> b
                     data["alerts"] = await client.get_camera_alerts(uuid=id, alert_interval=300)
                     data["properties"] = await client.get_camera_properties(uuid=id)
                 if conf_save_responses:
-                    client.save_response(data, f"camera_{id}")
+                    await client.save_response(data, f"camera_{id}")
                 return Camera(client, data, id, activity_zones)
             except NestException as exception:
                 message = f"Error communicating with API, exception: {exception}"

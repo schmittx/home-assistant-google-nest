@@ -1,6 +1,7 @@
 """Nest API Client."""
 from __future__ import annotations
 
+import aiofiles
 from aiohttp import ClientSession, ClientTimeout, ContentTypeError, FormData
 from http import HTTPStatus
 import json
@@ -117,7 +118,7 @@ class NestClient:
             },
         ) as response:
             result = await response.json()
-            self.save_response(response=result, name="refresh_token")
+            await self.save_response(response=result, name="refresh_token")
 
             if "error" in result:
                 if result["error"] == "invalid_grant":
@@ -157,7 +158,7 @@ class NestClient:
             },
         ) as response:
             result = await response.json()
-            self.save_response(response=result, name="access_token")
+            await self.save_response(response=result, name="access_token")
 
             if "error" in result:
                 if result["error"] == "invalid_grant":
@@ -189,7 +190,7 @@ class NestClient:
             },
         ) as response:
             result = await response.json()
-            self.save_response(response=result, name="authenticate")
+            await self.save_response(response=result, name="authenticate")
             nest_auth = NestAuthResponse(**result)
 
         if nest_auth.jwt:
@@ -203,7 +204,7 @@ class NestClient:
             ) as response:
                 try:
                     nest_response = await response.json()
-                    self.save_response(response=nest_response, name="session")
+                    await self.save_response(response=nest_response, name="session")
                 except ContentTypeError as exception:
                     nest_response = await response.text()
 
@@ -254,7 +255,7 @@ class NestClient:
             json=NEST_REQUEST,
         ) as response:
             result = await response.json()
-            self.save_response(response=result, name="first_data")
+            await self.save_response(response=result, name="first_data")
 
             if result.get("error"):
                 _LOGGER.debug(result)
@@ -313,7 +314,7 @@ class NestClient:
 
             try:
                 result = await response.json()
-                self.save_response(response=result, name="subscribe")
+                await self.save_response(response=result, name="subscribe")
             except ContentTypeError as error:
                 raise NestException(
                     "{} error ({}) while subscribing for data".format(
@@ -359,7 +360,7 @@ class NestClient:
 
             try:
                 result = await response.json()
-                self.save_response(response=result, name="put")
+                await self.save_response(response=result, name="put")
             except ContentTypeError:
                 raise NestException(
                     "{} error ({}) while updating objects".format(
@@ -400,7 +401,7 @@ class NestClient:
                 raise NotAuthenticatedException(await response.text())
             try:
                 result = await response.json()
-                self.save_response(response=result, name=f"alerts_{uuid}", append_response=False)
+                await self.save_response(response=result, name=f"alerts_{uuid}", append_response=False)
                 return result
             except ContentTypeError:
                 raise NestException(
@@ -477,7 +478,7 @@ class NestClient:
                 raise NotAuthenticatedException(await response.text())
             try:
                 result = await response.json()
-                self.save_response(response=result, name=f"properties_{uuid}")
+                await self.save_response(response=result, name=f"properties_{uuid}")
                 return result
             except ContentTypeError:
                 raise NestException(
@@ -546,7 +547,7 @@ class NestClient:
                 raise NotAuthenticatedException(await response.text())
             try:
                 result = await response.json()
-                self.save_response(response=result, name=f"zones_{uuid}")
+                await self.save_response(response=result, name=f"zones_{uuid}")
                 return result
             except ContentTypeError:
                 raise NestException(
@@ -572,7 +573,7 @@ class NestClient:
                 raise NotAuthenticatedException(await response.text())
             try:
                 result = await response.json()
-                self.save_response(response=result, name=f"weather_{postal_code}")
+                await self.save_response(response=result, name=f"weather_{postal_code}")
                 return result.get(str(postal_code))
             except ContentTypeError:
                 raise NestException(
@@ -611,7 +612,7 @@ class NestClient:
                 raise NotAuthenticatedException(await response.text())
             try:
                 result = await response.json()
-                self.save_response(response=result, name=f"set_propertiy_{uuid}_{key}_{value}")
+                await self.save_response(response=result, name=f"set_propertiy_{uuid}_{key}_{value}")
                 return result
             except ContentTypeError:
                 raise NestException(
@@ -621,7 +622,7 @@ class NestClient:
                     )
                 )
 
-    def save_response(
+    async def save_response(
         self,
         response: dict[str, Any],
         name: str = "response",
@@ -632,11 +633,10 @@ class NestClient:
                 os.mkdir(SAVE_RESPONSE_LOCATION)
             name = name.replace("/", "_").replace(".", "_")
             path = f"{SAVE_RESPONSE_LOCATION}/{name}.json"
-            with open(path, "w") as file:
+            async with aiofiles.open(path, mode="w") as file:            
                 data = response
                 if append_response:
-                    data = json.load(file)
+                    data = await json.load(file)
                     if isinstance(data, list) and isinstance(response, list):
                         data.extend(response)
-                json.dump(data, file, default=lambda o: "not-serializable", indent=4, sort_keys=True)
-            file.close()
+                await file.write(json.dumps(data, default=lambda o: "not-serializable", indent=4, sort_keys=True))

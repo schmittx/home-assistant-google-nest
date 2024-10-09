@@ -12,7 +12,7 @@ from homeassistant.components.sensor import (
     SensorEntityDescription,
     SensorStateClass,
 )
-from homeassistant.const import PERCENTAGE, TEMP_CELSIUS, UnitOfTime
+from homeassistant.const import UnitOfTemperature, UnitOfTime, PERCENTAGE
 from homeassistant.helpers.entity import EntityCategory
 
 from . import HomeAssistantGoogleNestData
@@ -49,7 +49,7 @@ SENSOR_DESCRIPTIONS: list[GoogleNestSensorEntityDescription] = [
         key="current_temperature",
         name="Temperature",
         native_value=lambda value: round(value, 1),
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         device_class=SensorDeviceClass.TEMPERATURE,
         state_class=SensorStateClass.MEASUREMENT,
         entity_category=None,

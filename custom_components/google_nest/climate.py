@@ -13,7 +13,7 @@ from homeassistant.components.climate import (
     ATTR_TARGET_TEMP_HIGH,
     ATTR_TARGET_TEMP_LOW,
 )
-from homeassistant.const import ATTR_TEMPERATURE, TEMP_CELSIUS
+from homeassistant.const import UnitOfTemperature, ATTR_TEMPERATURE
 from homeassistant.helpers.entity import EntityCategory
 
 from . import HomeAssistantGoogleNestData
@@ -87,8 +87,12 @@ class GoogleNestClimateEntity(GoogleNestEntity, ClimateEntity):
 
     entity_description: GoogleNestClimateEntityDescription
     _attr_hvac_modes: list[HVACMode] | list[str] = [*PRESET_TO_MODE]
-    _attr_supported_features: int = ClimateEntityFeature.TARGET_TEMPERATURE
-    _attr_temperature_unit: str = TEMP_CELSIUS
+    _attr_supported_features: int = (
+        ClimateEntityFeature.TARGET_TEMPERATURE |
+        ClimateEntityFeature.TURN_OFF |
+        ClimateEntityFeature.TURN_ON
+    )
+    _attr_temperature_unit: str = UnitOfTemperature.CELSIUS
 
     @property
     def current_temperature(self) -> float | None:

@@ -5,8 +5,8 @@ from collections.abc import Callable
 from dataclasses import dataclass
 import datetime
 import logging
-import pytz
 from typing import Any
+from zoneinfo import ZoneInfo
 
 from homeassistant.components.select import SelectEntity, SelectEntityDescription
 from homeassistant.helpers.entity import EntityCategory
@@ -361,8 +361,8 @@ class GoogleNestSelectEntity(GoogleNestEntity, SelectEntity):
     def current_option(self) -> str:
         """Return the selected entity option to represent the entity state."""
         if self.entity_description.key == "audio_self_test_start_utc_offset_secs":
-            timezone = pytz.timezone(self.time_zones[self.bucket.object_key.split(".")[1]])
-            offset = timezone.utcoffset(datetime.datetime.now()).total_seconds()
+            time_zone = ZoneInfo(self.time_zones[self.bucket.object_key.split(".")[1]])
+            offset = time_zone.utcoffset(datetime.datetime.now()).total_seconds()
             start = self.bucket.value["audio_self_test_start_utc_offset_secs"]
             end = self.bucket.value["audio_self_test_end_utc_offset_secs"]
             for key, value in TIME_INTERVALS.items():
@@ -447,8 +447,8 @@ class GoogleNestSelectEntity(GoogleNestEntity, SelectEntity):
             value = PRESET_TO_ENABLE[option]
 
         elif self.entity_description.key == "audio_self_test_start_utc_offset_secs":
-            timezone = pytz.timezone(self.time_zones[self.bucket.object_key.split(".")[1]])
-            offset = timezone.utcoffset(datetime.datetime.now()).total_seconds()
+            time_zone = ZoneInfo(self.time_zones[self.bucket.object_key.split(".")[1]])
+            offset = time_zone.utcoffset(datetime.datetime.now()).total_seconds()
             start = int(TIME_INTERVALS[option][0] - offset)
             if start >= 86400:
                 start = start - 86400

@@ -11,7 +11,7 @@ from homeassistant.components.number import (
     NumberEntityDescription,
     NumberMode,
 )
-from homeassistant.const import UnitOfTime, PERCENTAGE, TEMP_CELSIUS, TIME_HOURS
+from homeassistant.const import UnitOfTemperature, UnitOfTime, PERCENTAGE
 from homeassistant.helpers.entity import EntityCategory
 
 from . import HomeAssistantGoogleNestData
@@ -42,7 +42,7 @@ NUMBER_DESCRIPTIONS: list[NumberEntityDescription] = [
         native_max_value=32,
         native_min_value=24.5,
         native_step=0.5,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         icon="mdi:thermometer-chevron-up",
     ),
     GoogleNestNumberEntityDescription(
@@ -52,7 +52,7 @@ NUMBER_DESCRIPTIONS: list[NumberEntityDescription] = [
         native_max_value=21,
         native_min_value=4.5,
         native_step=0.5,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         icon="mdi:thermometer-chevron-down",
     ),
     GoogleNestNumberEntityDescription(
@@ -62,7 +62,7 @@ NUMBER_DESCRIPTIONS: list[NumberEntityDescription] = [
         native_max_value=7,
         native_min_value=2,
         native_step=0.5,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         icon="mdi:thermometer-chevron-down",
     ),
     GoogleNestNumberEntityDescription(
@@ -73,7 +73,7 @@ NUMBER_DESCRIPTIONS: list[NumberEntityDescription] = [
         native_step=1,
         get_value=lambda value: (value / 3600),
         set_value=lambda value: int(value * 3600),
-        native_unit_of_measurement=TIME_HOURS,
+        native_unit_of_measurement=UnitOfTime.HOURS,
         icon="mdi:timer",
     ),
     GoogleNestNumberEntityDescription(
@@ -83,7 +83,7 @@ NUMBER_DESCRIPTIONS: list[NumberEntityDescription] = [
         native_max_value=40,
         native_min_value=35,
         native_step=0.5,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         icon="mdi:thermometer-chevron-up",
     ),
 ]
@@ -189,7 +189,7 @@ class GoogleNestNumberEntity(GoogleNestEntity, NumberEntity):
         state = self.bucket.value.get(self.entity_description.key)
         return self.entity_description.get_value(state)
 
-    async def async_set_value(self, value: float) -> None:
+    async def async_set_native_value(self, value: float) -> None:
         """Set new value."""
         objects = [
             {
@@ -215,7 +215,7 @@ class GoogleNestNumberCoordinatorEntity(GoogleNestCoordinatorEntity, NumberEntit
         value = self.device.properties[self.entity_description.key]
         return self.entity_description.get_value(value)
 
-    async def async_set_value(self, value: float) -> None:
+    async def async_set_native_value(self, value: float) -> None:
         """Set new value."""
         await self.client.set_camera_property(
             uuid=self.device.uuid,
