@@ -213,6 +213,13 @@ SELECT_COORDINATOR_DESCRIPTIONS: list[GoogleNestSelectCoordinatorEntityDescripti
         object_key_prefix="quartz",
     ),
     GoogleNestSelectCoordinatorEntityDescription(
+        key="doorbell.theme",
+        name="Theme",
+        icon="mdi:palette",
+        capability="doorbell.theme",
+        object_key_prefix="quartz",
+    ),
+    GoogleNestSelectCoordinatorEntityDescription(
         key="irled.state",
         name="Night Vision",
         options=[*PRESET_TO_IR_LED_STATE],
@@ -235,7 +242,6 @@ SELECT_COORDINATOR_DESCRIPTIONS: list[GoogleNestSelectCoordinatorEntityDescripti
     GoogleNestSelectCoordinatorEntityDescription(
         key="streaming.data-usage-tier",
         name="Quality & Bandwidth",
-        options=None,
         get_value=lambda value: DATA_USAGE_TIER_TO_PRESET.get(value),
         set_value=lambda value: PRESET_TO_DATA_USAGE_TIER.get(value),
         icon="mdi:filmstrip",
@@ -493,9 +499,14 @@ class GoogleNestSelectCoordinatorEntity(GoogleNestCoordinatorEntity, SelectEntit
         if options := self.entity_description.options:
             return options
         options = []
-        for preset, tier in PRESET_TO_DATA_USAGE_CAPABILITY.items():
-            if tier in self.device.capabilities:
-                options.append(preset)
+        if self.entity_description.key == "doorbell.theme":
+            for capability in self.device.capabilities:
+                if capability.startswith("doorbell.theme."):
+                    options.append(capability.split(".")[2])
+        elif self.entity_description.key == "streaming.data-usage-tier":
+            for preset, tier in PRESET_TO_DATA_USAGE_CAPABILITY.items():
+                if tier in self.device.capabilities:
+                    options.append(preset)
         return options
 
     async def async_select_option(self, option: str) -> None:

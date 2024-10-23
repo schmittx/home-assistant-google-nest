@@ -1,7 +1,7 @@
 {
 	"name": "Google Nest",
 	"content_in_root": false,
-	"homeassistant": "2023.9.0",
+	"homeassistant": "2024.10.0",
 	"iot_class": "Cloud Push",
 	"render_readme": true
 }

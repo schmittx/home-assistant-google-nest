@@ -9,7 +9,7 @@ Custom component to allow control of [Google Nest](https://home.nest.com) device
 - This integration only supports Google accounts (no Nest accounts).
 
 ## Install
-1. Ensure Home Assistant is updated to version 2023.7.0 or newer.
+1. Ensure Home Assistant is updated to version 2024.10.0 or newer.
 2. Use HACS and add as a [custom repo](https://hacs.xyz/docs/faq/custom_repositories); or download and manually move to the `custom_components` folder.
 3. Once the integration is installed follow the standard process to setup via UI and search for `Google Nest`.
 4. Follow the prompts.
