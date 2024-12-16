@@ -79,16 +79,21 @@
                     "evening": "Evening (4 PM - 9 PM)",
                     "f": "°F",
                     "halloween": "Halloween",
+                    "hanukkah": "Hanukkah",
                     "high": "High",
                     "home": "Home",
+                    "kwanzaa": "Kwanzaa",
                     "low": "Low",
                     "mechanical": "Mechanical",
                     "medium": "Medium",
                     "midday": "Midday (11 AM - 4 PM)",
                     "morning": "Morning (7 AM - 11 AM)",
+                    "newyear": "New Year's Eve",
                     "night": "Night (9 PM - 7 AM)",
                     "off": "Off",
-                    "on": "On"
+                    "on": "On",
+                    "winter": "Winter",
+                    "xmas": "Christmas"
                 }
             }
         }
